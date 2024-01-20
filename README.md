@@ -1,8 +1,8 @@
-# SEC 8-K Filing Security Incident Summarizer
+# SEC 8-K Security Incident Report Poster and Summarizer
 
 ## Overview
 
-This Python script automates the retrieval and summarization of security incident reports from the U.S. Securities and Exchange Commission's (SEC) RSS feed for 8-K filings.
+This Python script automates the retrieval, notification, and summarization of security incident reports from the U.S. Securities and Exchange Commission's (SEC) RSS feed for 8-K filings.
 
 The script retrieves all 8-K filings and detects whether any of the filings include an [item 1.05](https://www.sec.gov/news/press-release/2023-139).
 
