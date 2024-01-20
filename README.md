@@ -8,7 +8,7 @@ The script retrieves all 8-K filings and detects whether any of the filings incl
 
 The script then submits the item 1.05 text to a Slack Webhook with a link to the original 8-K filing.
 
-Optionally, the script can use OpenAI's API to summarize the whole filing (which may contain an additional exhibit or statement) in order to summarize the report.
+Optionally, the script can use OpenAI's API to summarize the whole filing (which may contain an additional exhibit or statement).
 
 ## Usage
 
