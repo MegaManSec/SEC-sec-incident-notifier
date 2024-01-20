@@ -21,7 +21,7 @@ USER_AGENT='Joshua Rogers Joshua@Joshua.hu' SLACK_WEBHOOK='https://hooks.slack.c
 
 Each of those environmental values are optional, and they may also be set in the `sec-sec-incident-notifier.py` file instead.
 
-|![](slack.png)An example of the Slack output from this script.|
+|![](Slack.png)An example of the Slack output from this script.|
 |:-:|
 
 
