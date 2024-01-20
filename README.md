@@ -54,7 +54,7 @@ The environmental values are also respected, if set:
 
 ```bash
 $ sudo USER_AGENT='Joshua Rogers Joshua@Joshua.hu' SLACK_WEBHOOK='https://hooks.slack.com/services/.....' OPENAI_KEY=sk-...... ./install.sh"
-sec-sec-incident-notifier has been installed in /usr/local/bin/sec-sec-incident-notifier.py with OPENAI_KEY=, SLACK_WEBHOOK_URL=, and USER_AGENT=, and a service has been installed in /etc/systemd/system/sec-sec-incident-notifier.service. The service is started and logging to /var/log/sec-sec-incident-notifier.log and /var/log/sec-sec-incident-notifier-error.log, and log rotation is set up in /etc/logrotate.d/sec-sec-incident-notifier.
+sec-sec-incident-notifier has been installed in /usr/local/bin/sec-sec-incident-notifier.py with OPENAI_KEY=..., SLACK_WEBHOOK_URL=..., and USER_AGENT=..., and a service has been installed in /etc/systemd/system/sec-sec-incident-notifier.service. The service is started and logging to /var/log/sec-sec-incident-notifier.log and /var/log/sec-sec-incident-notifier-error.log, and log rotation is set up in /etc/logrotate.d/sec-sec-incident-notifier.
 ```
 
 ## License
