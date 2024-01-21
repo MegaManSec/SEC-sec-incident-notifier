@@ -31,6 +31,8 @@ There are three optional environmental values. Optionally, these values can be s
 
 - `OPENAI_KEY`: If set to a valid OpenAI API key, the script will attempt to summarize the 8-K filing.
 
+- `OPENAI_MAX_TOKENS`: The maximum tokens for each summary to use. The default is 300. Smaller values result in shorter summaries.
+
 - `SLACK_WEBHOOK`: If set to a valid Slack Webhook, the script will send a message containing the information of the filing to a Slack channel.
 
 - `USER_AGENT`: The SEC requirs [progmatic downloads to use a specific format for the user agent](https://www.sec.gov/os/webmaster-faq#code-support). An example is `Sample Company Name AdminContact@<sample company domain>.com`. If this is not set, a default is used.
@@ -53,8 +55,8 @@ In addition to running the script manually, a small debian-based installation sc
 The environmental values are also respected, if set:
 
 ```bash
-$ sudo USER_AGENT='Joshua Rogers Joshua@Joshua.hu' SLACK_WEBHOOK='https://hooks.slack.com/services/.....' OPENAI_KEY=sk-...... ./install.sh"
-sec-sec-incident-notifier has been installed in /usr/local/bin/sec-sec-incident-notifier.py with OPENAI_KEY=..., SLACK_WEBHOOK_URL=..., and USER_AGENT=..., and a service has been installed in /etc/systemd/system/sec-sec-incident-notifier.service. The service is started and logging to /var/log/sec-sec-incident-notifier.log and /var/log/sec-sec-incident-notifier-error.log, and log rotation is set up in /etc/logrotate.d/sec-sec-incident-notifier.
+$ sudo USER_AGENT='Joshua Rogers Joshua@Joshua.hu' SLACK_WEBHOOK='https://hooks.slack.com/services/.....' OPENAI_KEY=sk-...... OPENAI_MAX_TOKENS=150 ./install.sh"
+sec-sec-incident-notifier has been installed in /usr/local/bin/sec-sec-incident-notifier.py with OPENAI_KEY=..., OPENAI_MAX_TOKENS=150, SLACK_WEBHOOK_URL=..., and USER_AGENT=..., and a service has been installed in /etc/systemd/system/sec-sec-incident-notifier.service. The service is started and logging to /var/log/sec-sec-incident-notifier.log and /var/log/sec-sec-incident-notifier-error.log, and log rotation is set up in /etc/logrotate.d/sec-sec-incident-notifier.
 ```
 
 ## License

@@ -27,6 +27,7 @@ DynamicUser=yes
 Environment=OPENAI_KEY=$OPENAI_KEY
 Environment=SLACK_WEBHOOK_URL=$SLACK_WEBHOOK
 Environment=USER_AGENT=$USER_AGENT
+Environment=OPENAI_MAX_TOKENS=$OPENAI_MAX_TOKENS
 
 StandardOutput=append:$SEC_8K_LOG_FILE
 StandardError=append:$SEC_8K_ERROR_LOG_FILE
@@ -53,4 +54,4 @@ systemctl start sec-sec-incident-notifier
 # Step 4: Enable the sec-sec-incident-notifier service to start at boot
 systemctl enable sec-sec-incident-notifier
 
-echo "sec-sec-incident-notifier has been installed in $SEC_8K_EXECUTABLE with OPENAI_KEY=$OPENAI_KEY, SLACK_WEBHOOK_URL=$SLACK_WEBHOOK, and USER_AGENT=$USER_AGENT, and a service has been installed in $SEC_8K_SERVICE_FILE. The service is started and logging to $SEC_8K_LOG_FILE and $SEC_8K_ERROR_LOG_FILE, and log rotation is set up in $SEC_8K_LOGROTATE_FILE."
+echo "sec-sec-incident-notifier has been installed in $SEC_8K_EXECUTABLE with OPENAI_KEY=$OPENAI_KEY, OPENAI_MAX_TOKENS=$OPENAI_MAX_TOKENS, SLACK_WEBHOOK_URL=$SLACK_WEBHOOK, and USER_AGENT=$USER_AGENT, and a service has been installed in $SEC_8K_SERVICE_FILE. The service is started and logging to $SEC_8K_LOG_FILE and $SEC_8K_ERROR_LOG_FILE, and log rotation is set up in $SEC_8K_LOGROTATE_FILE."

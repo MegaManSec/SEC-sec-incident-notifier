@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 import feedparser
 import requests
 
+OPENAI_MAX_TOKENS = 300
 OPENAI_KEY = ""
 SLACK_WEBHOOK=""
 USER_AGENT = "Joshua Rogers Joshua@Joshua.Hu" # Format should be "(Company) Name Contact@Email.tld"
@@ -64,7 +65,7 @@ def get_true_url(link):
     print(f"Error: HTML content not found in {true_url}", file=sys.stderr)
     return None, None
 
-def summarize_text(prompt, model="gpt-3.5-turbo-1106", max_tokens=300):
+def summarize_text(prompt, model="gpt-3.5-turbo-1106"):
     """
     Use OpenAI to summarize the document
     """
@@ -77,7 +78,7 @@ def summarize_text(prompt, model="gpt-3.5-turbo-1106", max_tokens=300):
         response = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=max_tokens
+            max_tokens=OPENAI_MAX_TOKENS
         )
 
         return response.choices[0].message.content.strip()
@@ -193,7 +194,7 @@ def parse_sec_rss_feed(entry):
 
 if __name__ == "__main__":
 
-    for var in ["USER_AGENT", "OPENAI_KEY", "SLACK_WEBHOOK"]:
+    for var in ["USER_AGENT", "OPENAI_KEY", "SLACK_WEBHOOK", "OPENAI_MAX_TOKENS"]:
         e_val = os.getenv(var)
         if e_val and len(e_val) > 0:
             vars()[var] = e_val
