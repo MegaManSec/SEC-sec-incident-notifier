@@ -51,14 +51,23 @@ def get_true_url(link):
     if match:
         extracted_html = match.group(0)
 
-        if "XBRL TAXONOMY EXTENSION SCHEMA" in extracted_html:
-            # Split the string based on the substring
-            extracted_html = extracted_html.split("XBRL TAXONOMY EXTENSION SCHEMA")[0]
+        if "XBRL TAXONOMY EXTENSION".lower() in extracted_html.lower():
+            extracted_html = re.split("XBRL TAXONOMY EXTENSION", extracted_html, flags=re.IGNORECASE)[0]
 
-        pattern = re.compile(r'Item(?:&#160;|\s)1\.05(.*?)(?:(?:Item(?:&#160;|\s))|(?:<\/DIV><\/Center>))', re.DOTALL | re.IGNORECASE)
+        if "13(a) of the Exchange Act".lower() in extracted_html.lower():
+            extracted_html = re.split("13\(a\) of the Exchange Act", extracted_html, flags=re.IGNORECASE)[1]
+
+        if "forward-looking statements".lower() in extracted_html.lower():
+            extracted_html = re.sub(r'<p\b[^>]*>(?:(?!<\/?p\b)[\s\S])*forward-looking statements(?:(?!<\/?p\b)[\s\S])*<\/p>', '', extracted_html, flags=re.DOTALL | re.IGNORECASE)
+            if "forward-looking statements".lower() in extracted_html.lower():
+                extracted_html = re.split("forward-looking statements", extracted_html, flags=re.IGNORECASE)[0]
+
+        pattern = re.compile(r'Item(?:&#160;|\s)1\.05(.*?)(?:(?:Item(?:&#160;|\s))|(?:<\/DIV>))', re.DOTALL | re.IGNORECASE)
         match = pattern.search(extracted_html)
         if match:
-            return extracted_html, f"<p>{match.group(1)}"
+            extracted_short_html = f"<p>{match.group(1)}"
+
+            return extracted_html, extracted_short_html
 
         return extracted_html, None
 
@@ -183,14 +192,22 @@ def parse_sec_rss_feed(entry):
         alert(f"_{company}_ has filed an 8-K with a section 1.05, but we cannot parse the details: {link}")
         return
 
-    text_content = text_content.split("TAXONOMY", 1)[0] if "TAXONOMY" in text_content else text_content
-    text_content = text_content.split("provided pursuant to Section 13(a) of the Exchange Act", 1)[-1] if "provided pursuant to Section 13(a) of the Exchange Act" in text_content else text_content
-    summary = summarize_text(f"Summarize the following text, making sure you include the most critical information such as the systems compromised, who they belonged to, and their overall importance: {text_content}")
+    if "TAXONOMY".lower() in text_content.lower():
+        text_content = re.split("TAXONOMY", text_content, flags=re.IGNORECASE)[0]
+
+    if "provided pursuant to Section 13(a) of the Exchange Act".lower() in text_content.lower():
+        text_content = re.split("provided pursuant to Section 13\(a\) of the Exchange Act", text_content, flags=re.IGNORECASE)[1]
+
+    text_content = text_content.replace('\n', ' ')
+
+    summary = summarize_text(f"Summarize the following texts together, making sure you include the most critical information such as the company and systems compromised, who they belonged to, and their overall importance, and the affect for users, the company, and laws where applicable: {text_content}")
 
     if summary:
         alert(f"_{company}_: {link}.\n\n{SLACK_BULLETPOINT}(AI): ", summary)
-    else:
+    elif short_text_content:
         alert(f"_{company}_: {link}.\n\n{SLACK_BULLETPOINT}(Manual): ", short_text_content)
+    else:
+        alert(f"_{company}_ has filed an 8-K with a section 1.05, but we cannot parse the details: {link}")
 
 if __name__ == "__main__":
 
