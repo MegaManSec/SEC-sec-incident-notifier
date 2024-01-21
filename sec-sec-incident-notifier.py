@@ -36,7 +36,8 @@ def get_true_url(link):
     """
 
     # https://www.sec.gov/Archives/edgar/data/789019/000119312524011295/0001193125-24-011295-index.htm can be read by https://www.sec.gov/Archives/edgar/data/789019/000119312524011295/0001193125-24-011295.txt
-    true_url = link.replace("-index.htm", ".txt")
+    true_url = link.replace("-index.html", ".txt") # Should not be needed
+    true_url = true_url.replace("-index.htm", ".txt")
 
     headers = {'User-Agent': USER_AGENT}
     response = requests.get(true_url, headers=headers)
@@ -178,7 +179,7 @@ def parse_sec_rss_feed(entry):
 
     html_content, short_html_content  = get_true_url(link)
     if not html_content:
-        alert(f"_{company}_ has filed an 8-K with a section 1.05, but we cannot parse the details: {link}")
+        alert(f"_{company}_ has filed an 8-K with an item 1.05, but we cannot parse the details: {link}")
         return
 
     soup = BeautifulSoup(html_content, 'html5lib')
@@ -189,7 +190,7 @@ def parse_sec_rss_feed(entry):
         short_text_content = soup.get_text(separator=' ', strip=True) # Contains only the item 1.05 text
 
     if not text_content:
-        alert(f"_{company}_ has filed an 8-K with a section 1.05, but we cannot parse the details: {link}")
+        alert(f"_{company}_ has filed an 8-K with an item 1.05, but we cannot parse the details: {link}")
         return
 
     if "TAXONOMY".lower() in text_content.lower():
@@ -207,7 +208,7 @@ def parse_sec_rss_feed(entry):
     elif short_text_content:
         alert(f"_{company}_: {link}.\n\n{SLACK_BULLETPOINT}(Manual): ", short_text_content)
     else:
-        alert(f"_{company}_ has filed an 8-K with a section 1.05, but we cannot parse the details: {link}")
+        alert(f"_{company}_ has filed an 8-K with an item 1.05, but we cannot parse the details: {link}")
 
 if __name__ == "__main__":
 
