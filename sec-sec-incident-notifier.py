@@ -50,7 +50,11 @@ def get_true_url(link):
     if match:
         extracted_html = match.group(0)
 
-        pattern = re.compile(r'Item&#160;1\.05(.*?)((?:Item&#160;)|(?:<\/DIV><\/Center>))', re.DOTALL | re.IGNORECASE)
+        if "XBRL TAXONOMY EXTENSION SCHEMA" in extracted_html:
+            # Split the string based on the substring
+            extracted_html = extracted_html.split("XBRL TAXONOMY EXTENSION SCHEMA")[0]
+
+        pattern = re.compile(r'Item(?:&#160;|\s)1\.05(.*?)(?:(?:Item(?:&#160;|\s))|(?:<\/DIV><\/Center>))', re.DOTALL | re.IGNORECASE)
         match = pattern.search(extracted_html)
         if match:
             return extracted_html, f"<p>{match.group(1)}"
@@ -168,11 +172,11 @@ def parse_sec_rss_feed(entry):
         return
 
     soup = BeautifulSoup(html_content, 'html5lib')
-    text_content = soup.get_text(separator=' ', strip=True)
+    text_content = soup.get_text(separator=' ', strip=True) # Contains the full 8-K text
 
     if short_html_content:
         soup = BeautifulSoup(short_html_content, 'html5lib')
-        short_text_content = soup.get_text(separator=' ', strip=True)
+        short_text_content = soup.get_text(separator=' ', strip=True) # Contains only the item 1.05 text
 
     if not text_content:
         alert(f"_{company}_ has filed an 8-K with a section 1.05, but we cannot parse the details: {link}")
@@ -205,11 +209,11 @@ if __name__ == "__main__":
         print("Could not start!", file=sys.stderr)
         sys.exit(1)
 
-#    for entry in entries:
-#        processed_links.add(entry.link)
+    for entry in entries:
+        processed_links.add(entry.link)
 
     while True:
-#        time.sleep(REFRESH_INTERVAL_SECONDS)
+        time.sleep(REFRESH_INTERVAL_SECONDS)
 
         entries = get_rss_feed(SEC_RSS_FEED)
 
