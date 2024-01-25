@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 import feedparser
 import requests
 
-OPENAI_MAX_TOKENS = 300
+OPENAI_MAX_TOKENS = 200
 OPENAI_KEY = ""
 SLACK_WEBHOOK=""
 USER_AGENT = "Joshua Rogers Joshua@Joshua.Hu" # Format should be "(Company) Name Contact@Email.tld"
@@ -25,8 +25,9 @@ def check_cybersecurity_disclosure(entry):
     Check if the given RSS entry contains a cybersecurity incident disclosure (Item 1.05 on 8-K).
     """
 
-    if 'Item 1.05' in entry.summary:
+    if '1.05' in entry.summary:
         return True
+
     return False
 
 def get_true_url(link):
@@ -122,6 +123,8 @@ def alert(text, summary=""):
     text = truncate_slack_message(text)
     summary = truncate_slack_message(summary)
 
+
+
 # Ugly attachments.
 #    data = {
 #        "attachments": [
@@ -201,7 +204,7 @@ def parse_sec_rss_feed(entry):
 
     text_content = text_content.replace('\n', ' ')
 
-    summary = summarize_text(f"Summarize the following texts together, making sure you include the most critical information such as the company and systems compromised, who they belonged to, and their overall importance, and the affect for users, the company, and laws where applicable: {text_content}")
+    summary = summarize_text(f"Summarize the following texts together, ignoring anything about forward-looking statements, and making sure you include the most critical information such as the company, systems compromised, amount of systems compromised, who they belonged to, and their overall importance, and the affect for users, the company, and laws where applicable: {text_content}")
 
     if summary:
         alert(f"_{company}_: {link}.\n\n{SLACK_BULLETPOINT}(AI): ", summary)

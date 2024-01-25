@@ -7,7 +7,7 @@ pip3 install feedparser beautifulsoup4 openai requests
 SEC_8K_EXECUTABLE="/usr/local/bin/sec-sec-incident-notifier.py"
 cp sec-sec-incident-notifier.py "$SEC_8K_EXECUTABLE"
 chmod +x "$SEC_8K_EXECUTABLE"
-chown root:root /usr/local/bin/sec-sec-incident-notifier.py
+chown root:root $SEC_8K_EXECUTABLE
 
 # Step 2: Create a service file and logrotate configuration for sec-sec-incident-notifier
 SEC_8K_LOG_FILE="/var/log/sec-sec-incident-notifier.log"
@@ -26,7 +26,7 @@ Restart=always
 DynamicUser=yes
 Environment=OPENAI_KEY=$OPENAI_KEY
 Environment=SLACK_WEBHOOK_URL=$SLACK_WEBHOOK
-Environment=USER_AGENT=$USER_AGENT
+Environment="USER_AGENT=$USER_AGENT"
 Environment=OPENAI_MAX_TOKENS=$OPENAI_MAX_TOKENS
 
 StandardOutput=append:$SEC_8K_LOG_FILE
