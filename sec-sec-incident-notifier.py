@@ -57,7 +57,7 @@ def get_true_url(link):
             extracted_html = re.split("XBRL TAXONOMY EXTENSION", extracted_html, flags=re.IGNORECASE)[0]
 
         if "13(a) of the Exchange Act".lower() in extracted_html.lower():
-            extracted_html = re.split("13\(a\) of the Exchange Act", extracted_html, flags=re.IGNORECASE)[1]
+            extracted_html = re.split("13(a) of the Exchange Act", extracted_html, flags=re.IGNORECASE)[1]
 
         if "forward-looking statements".lower() in extracted_html.lower():
             extracted_html = re.sub(r'<p\b[^>]*>(?:(?!<\/?p\b)[\s\S])*forward-looking statements(?:(?!<\/?p\b)[\s\S])*<\/p>', '', extracted_html, flags=re.DOTALL | re.IGNORECASE)
@@ -200,7 +200,7 @@ def parse_sec_rss_feed(entry):
         text_content = re.split("TAXONOMY", text_content, flags=re.IGNORECASE)[0]
 
     if "provided pursuant to Section 13(a) of the Exchange Act".lower() in text_content.lower():
-        text_content = re.split("provided pursuant to Section 13\(a\) of the Exchange Act", text_content, flags=re.IGNORECASE)[1]
+        text_content = re.split("provided pursuant to Section 13(a) of the Exchange Act", text_content, flags=re.IGNORECASE)[1]
 
     text_content = text_content.replace('\n', ' ')
 
